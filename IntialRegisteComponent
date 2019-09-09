@@ -1,0 +1,12 @@
+<aura:component >
+    
+ 
+<div class="MainBgc"><img src="{!$Resource.BGC}" style="width:1320px; height:620px"/></div>
+<div class="MainHeader"><h1>Distributed Verification &amp; Registration Process</h1></div>
+<div class="button">
+    <lightning:button> <span> SIGN UP </span> </lightning:button>     
+</div> 
+<div class="button button2">
+    <lightning:button> <span> LOGIN </span> </lightning:button> 
+</div>    
+</aura:component>
