@@ -1,0 +1,41 @@
+===========================================================================================================
+Component 1
+===========================================================================================================
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes">
+    
+    <ui:button label="Navigate to C1" press="{!c.Navigate}"/>
+    
+    {!v.body}
+	
+</aura:component>
+
+===========================================================================================================
+Componet 1  js 
+
+({
+	Navigate : function(component, event, helper) {
+         $A.createComponent(
+            "c:C1",
+            {
+                 
+            },
+            function(newCmp){
+                if (component.isValid()) {
+                    var body = component.get("v.body");
+                    body.push(newCmp);
+                    component.set("v.body", body);
+                }
+            }
+        );	        
+		
+	}
+})
+===========================================================================================================
+Component 2 
+===========================================================================================================
+<aura:component >
+    
+    Component C1 Successfully Loaded ! ! !
+	
+</aura:component>
+==============================================================================================================
