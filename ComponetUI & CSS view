@@ -1,0 +1,151 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global"  controller="ClassForFetchingUserInformation">
+<div class="MainBgc"><img src="{!$Resource.BlockchainWorld}"  style="width:100%; height:auto" /></div>
+<div class="center">Welcome To Blockchain World</div>
+<div class="center center2"> Where things are about to Change.</div>
+<div class="center center3"><lightning:button label="USER INFORMATION" onclick="{!c.UserInformation}"/></div>
+
+<aura:attribute name="UserInformation" type="UserInformation__c[]" />   
+  
+    
+<div class="PersonA">
+        <aura:iteration items="{!v.UserInformation}" var="Con" start="0" end="1" >
+            
+                       <label id="labelFormatting"> Name:</label>
+                       <div class="Text"><lightning:button label="{!Con.UserName__c}"/></div>
+                       <label id="labelFormatting"> Phone:</label>
+                       <div class="Text"><lightning:button label="{!Con.Phone__c}"/></div>
+                       <label id="labelFormatting"> Email:</label>
+                       <div class="Text"><lightning:button label="{!Con.Email__c}"/></div>
+	                  
+                       <lightning:layout horizontalAlign="left"> 
+                       <div class="custom-box"><lightning:input type="button" value="Add"       onclick="{!c.doAdd}"/></div>
+                       <div class="custom-box"><lightning:input type="button" value="Send"      onclick="{!c.doSend}"/></div>
+                       <div class="custom-box"><lightning:input type="button" value="Receive"   onclick="{!c.doReceive}" /></div>
+                       <div class="custom-box"><lightning:input type="button" value="Withdrawl" onclick="{!c.doWithdrawl}" /></div>
+                       </lightning:layout> 
+                       <lightning:input type="button" value="passbook" onclick="{!c.doPassbook}" />
+        </aura:iteration>
+ </div>
+
+<div class="PersonB">
+        <aura:iteration items="{!v.UserInformation}" var="Con" start="1" end="2" >
+                      
+                      <label id="labelFormatting"> Name:</label>
+                      <div class="Text"><lightning:button label="{!Con.UserName__c}"/></div>
+                      <label id="labelFormatting"> Phone:</label>
+                      <div class="Text"><lightning:button label="{!Con.Phone__c}"/></div>
+                      <label id="labelFormatting"> Email:</label>
+                      <div class="Text"><lightning:button label="{!Con.Email__c}"/></div>
+	                  
+                       <lightning:layout horizontalAlign="left" >
+                       <div class="custom-box"><lightning:input type="button" value="Add"       onclick="{!c.doAdd}"/></div>
+                       <div class="custom-box"> <lightning:input type="button" value="Send"      onclick="{!c.doSend}"/></div>
+                       <div class="custom-box"><lightning:input type="button" value="Receive"   onclick="{!c.doReceive}" /></div>
+                       <div class="custom-box"><lightning:input type="button" value="Withdrawl" onclick="{!c.doWithdrawl}" /></div>
+                       </lightning:layout> 
+                       <lightning:input type="button" value="passbook" onclick="{!c.doPassbook}" />
+        </aura:iteration>                    
+ </div>
+    
+</aura:component>
+
+============================================================================================================================================================
+
+
+.THIS {
+}
+.THIS.MainBgc{
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 1px;
+  display: block;
+  width: 99%;
+  height: auto;
+}
+.THIS.center {
+     position: absolute;
+     top: 20%;
+     left: 20%;
+     display:inline;
+     font-size: 40px;
+     Color:black;
+	 text-shadow: 1px 1px #00b8e6;
+     text-align: center;
+     text-transform: uppercase;
+     letter-spacing: 3px;     
+     font-style: italic;
+     background-image: linear-gradient(to right, rgba(100,0,0,0), rgba(100,100,100,1));
+}
+.THIS.center2{
+     position: absolute;
+     top: 30%;
+     left: 50%;
+	 font-size: 20px;
+}
+.THIS.center3{
+     position: absolute;
+     top: 35%;
+     left: 41%;
+	 font-size: 20px;
+}
+.THIS button{
+  width: 100%;
+  background-color:  #000080;
+  color: silver;
+}
+.THIS button:hover {
+  background-color: #00b8e6;
+  color: black;
+}
+
+.THIS.PersonA{
+  position: absolute;
+  top:40%;
+  left:20%;
+  border-radius: 5px;
+  background: rgba(217, 179, 140, 0.1); 
+
+}
+.THIS.PersonB{
+  position: absolute;
+  top:40%;
+  left:60%;
+  border-radius: 5px;
+  background: rgba(217, 179, 140, 0.1); 
+}
+.THIS #labelFormatting{
+     font-size: 18px;
+     Color:silver;
+	 text-shadow: 2px 1px black;
+	 letter-spacing: 1px;
+     margin-bottom: 2px
+}
+.THIS .Text{
+  width:100%;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-top: 3px solid #990000;
+  border-bottom: 3px solid #990000;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #e6e6e6;
+  color:black;
+  padding:1px;
+}
+.THIS .custom-box {  
+    padding: 0.2rem; 
+}
+.THIS input[type=button] { 
+  width: 100%;
+  background-color: #990000;
+  color: white;
+  padding: 6px;
+  margin-right:14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.THIS input[type=button]:hover {
+  background-color: #009900;
+}
+==============================================================================================================================
