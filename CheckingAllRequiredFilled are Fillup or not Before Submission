@@ -1,0 +1,42 @@
+==============================================================================================================
+<aura:component>
+        <aura:attribute name = "documentType" type="String"/>
+        <aura:attribute name = "attachmentNameValue" type="String"/>
+        <lightning:layoutItem class="slds-p-around--medium" size="6">
+            <lightning:select aura:id="fieldId"
+                              required="true"
+                              name="attachmentType"
+                              label="Attachment Type"
+                              value="{!v.documentType}"                             >
+                <option value = "">select</option>          
+            </lightning:select>
+        </lightning:layoutItem>  
+        <lightning:layoutItem class="slds-p-around--medium" size="6">
+            <lightning:input aura:id="fieldId"
+                             required="true"
+                             label="File Name"
+                             name="filename"
+                             value="{!v.attachmentNameValue}"/>
+        </lightning:layoutItem>    
+        <lightning:button variant="brand" label="Upload" value="uploadSearch" onclick="{!c.handleUploadAction}"/>
+    </aura:component>
+
+
+
+====================================================================================================================
+ControllerCode:
+
+({
+    handleUploadAction : function(component, event, helper) {
+        //helper.onSelectChange(component, event);
+        var allValid = component.find('fieldId').reduce(function (validSoFar, inputCmp) {
+            inputCmp.showHelpMessageIfInvalid();
+            return validSoFar && !inputCmp.get('v.validity').valueMissing;
+        }, true);
+        if (allValid) {
+            alert('All form entries look valid. Ready to submit!');
+        } else {
+            alert('Please update the invalid form entries and try again.');
+        }
+    }
+})
