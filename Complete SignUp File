@@ -1,0 +1,309 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="ClassForImportingUserData" >
+<!--<h6>Hello Sign Up Page</h6> -->
+<aura:attribute type='String' name='FirstName' default='' />
+<aura:attribute type='String' name='LastName'  default='' />
+<aura:attribute type='String' name='Phone'     default='' />
+<aura:attribute type='String' name='Email'     default=' ' />    
+<aura:attribute type='String' name='Password'  default='' />
+<aura:attribute type='String' name='ConfirmPassword'  default='' />
+<aura:attribute type='String[]' name='Country' default="India,Iceland,Indonesia,Iran,Iraq,Ireland,Israel,Italy" />
+<aura:attribute type='String' name='userCountry' />  
+
+<aura:attribute name="variable1" type="boolean" default="true"/>
+<aura:if isTrue="{!v.variable1}">
+<div class="MainBgc"><img src="{!$Resource.SignUp}" style="width:100%; height:auto"/></div>
+<div class="center">Distributed Verification &amp; Registration Process </div>
+<div class="center center2"> You are on SignUp page</div>
+<div class="FormBackground">
+<form>  
+    
+    <label id="labelFormatting">Enter Your Name:</label>
+    <lightning:layout horizontalAlign="left"> 
+    <lightning:input type="text" name="FirstName" placeholder="First Name" value="{!v.FirstName}"  />
+    <lightning:input type="text" name="LastName"  placeholder="Last Name"  value="{!v.LastName}"   />  
+    </lightning:layout> <br/>
+    
+    <label for="country" id="labelFormatting">Enter Your Country:</label>
+    <lightning:select aura:id="fieldId"
+                      required="true"
+                      name="Country"
+                      label=""
+                      value="{!v.userCountry}">
+    <option>Select Country </option>
+    <aura:iteration items="{!v.Country}"    var="itCountry">
+        <option     value= "{!itCountry}"   text="{!itCountry}" />
+    </aura:iteration> 
+   
+    </lightning:select>
+    
+    
+
+   
+   
+   <label for="Email" id="labelFormatting">Enter Your Email:</label>
+   <lightning:input type="Email" name="Email" placeholder="Unique Email Address" required="true" value="{!v.Email}" aura:id="fieldId" />
+   <br/>
+   
+   <label for="password" id="labelFormatting">Enter Your password:</label>
+   <lightning:layout horizontalAlign="left"> <br/> 
+   <lightning:input type="password" name="password"        placeholder="Password"         value="{!v.Password}"        required="true" aura:id="fieldId"/>
+   <lightning:input type="password" name="ConfirmPassword" placeholder="Confirm password" value="{!v.ConfirmPassword}" required="true" aura:id="fieldId" />
+   </lightning:layout > 
+    
+       <label for="Phone" id="labelFormatting">Enter Your PhoneNo: </label>
+       <lightning:input aura:id="fieldId" type="tel" label=""
+                     placeholder="Unique PhoneNo " required="true" value="{!v.Phone}"
+                     name="tel"  pattern="[789][0-9]{9}" minlength="10" maxlength="10"
+                     messageWhenPatternMismatch="Phone number is not valid"
+                     onblur='{!c.checkValidity}'
+                     />  
+       
+       <lightning:layout horizontalAlign="left">  
+            <lightning:input type="submit" value="Submit" onclick="{!c.FilledCheckup}"/>
+            <lightning:input type="reset" value="Reset" />
+      </lightning:layout> 
+</form>
+</div>  
+    
+<aura:set attribute="else">   
+ {!v.body}
+</aura:set>
+ 
+</aura:if>    
+</aura:component>  
+============================================================================================================
+style =>
+.THIS {
+}
+.THIS.MainBgc{
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 1px;
+  display: block;
+  width: 99%;
+  height: auto;
+}
+.THIS.center {
+     position: absolute;
+     top: 10%;
+     left: 15%;
+     display:inline;
+     font-size: 40px;
+     Color:Black;
+	 text-shadow: 1px 1px blue;
+     text-align: center;
+     text-transform: uppercase;
+     letter-spacing: 3px;
+     
+     font-style: italic;
+     background-image: linear-gradient(to right, rgba(100,0,0,0), rgba(100,100,100,1));
+}
+.THIS.center2{
+     position: absolute;
+     top: 21%;
+     left: 40%;
+	 font-size: 20px;
+}
+.THIS.FormBackground{
+  position: absolute;
+  top:30%;
+  left:35%;
+  border-radius: 5px;
+  background: rgba(217, 179, 140, 0.1); 
+}
+.THIS #labelFormatting{
+     font-size: 18px;
+     Color:silver;
+	 text-shadow: 2px 1px black;
+	 letter-spacing: 1px;
+     margin-bottom: 2px
+}
+.THIS input[type=text] {
+  width:100%;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-top: 3px solid #990000;
+  border-bottom: 3px solid #990000;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #e6e6e6;
+  color:black;
+  padding:5px;
+  margin-right:25px;
+  margin-top:-10px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+  
+}
+
+.THIS input[type=text]:focus {
+  width: -60%;
+  border: 3px solid #555;
+}
+
+.THIS select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: #e6e6e6;
+  color:black;
+  font-size:16px;
+}
+.THIS input[type=Email]{
+  width: 100%;
+  padding: 5px;
+  font-size: 16px; 
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: #e6e6e6;
+  margin-top:-10px;
+}
+
+
+.THIS input[type=password]{
+  width: 100%;
+  padding: 5px;
+  font-size: 16px; 
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: #e6e6e6;
+  margin-right: 26px;
+}
+
+.THIS input[type=tel]{
+  width: 100%;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: #e6e6e6;
+}
+
+.THIS input[type=submit],.THIS input[type=reset] {
+  width: 100%;
+  background-color: #990000;
+  color: white;
+  padding: 6px;
+  margin-right: 180px;
+  border-radius: 4px;
+  cursor: pointer;
+  justify-self: end;
+  
+}
+
+.THIS input[type=submit]:hover,.THIS input[type=reset]:hover {
+  background-color: #009900;
+}
+=========================================================================================================
+Controller File =>
+({
+	myAction : function(component, event, helper) {
+		
+	},
+    checkValidity : function(component, event, helper) {
+        var validity = event.getSource().get("v.validity");
+        console.log(validity)
+    },
+    FilledCheckup : function(component, event, helper) {
+        //helper.onSelectChange(component, event);
+        var allValid = component.find('fieldId').reduce(function (validSoFar, inputCmp) {
+            inputCmp.showHelpMessageIfInvalid();
+            return validSoFar && !inputCmp.get('v.validity').valueMissing;
+        }, true);
+        if (allValid) {
+            // alert("Good To go");
+                       var Password = component.get("v.Password");
+        			   var ConfirmPassword = component.get("v.ConfirmPassword");
+        			   var Phone = component.get("v.Phone");
+        			    if(Password == ConfirmPassword && Phone.length==10 && parseInt(Phone) && (Phone[0]=='7' ||Phone[0]=='8' ||Phone[0]=='9')){
+            					alert('All form entries look valid. Your information is transferring to our server.');
+            					var a = component.get('c.doSubmission');
+            					$A.enqueueAction(a); 
+       	   				} else{
+                                alert("Check your entries of password or Phone again");
+                              	
+                          }
+          }else {
+           		  alert('Please update the invalid form entries and try again.');
+      		}     
+    },
+    doSubmission: function(component, event, helper){
+        var action = component.get("c.MethodForImportingUserData");
+        action.setParams({ FN : component.get('v.FirstName'),  
+                           LN : component.get('v.LastName'), 
+                           PH : component.get('v.Phone'),
+                           EM : component.get('v.Email'),
+                           PD : component.get('v.Password'), 
+                           CY : component.get("v.userCountry") });
+         component.set("v.variable1", "false");
+        // the server-side action returns
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS" || state === "Success" ||state === "success") {
+                 //do somthing
+                 //alert("Successfully transmitted");
+                 var a = component.get('c.doRedirect');
+                 $A.enqueueAction(a); 
+            }
+            else if (state === "INCOMPLETE") {
+                // do something
+               //alert('No response from server or client is offline.');
+                
+            }
+            else if (state === "ERROR") {
+                //alert("Server has refused to take your Entries! Either your haven't entered unique Email or PhoneNo");
+                var a = component.get('c.doRedirect2');
+                $A.enqueueAction(a);
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log("Error message: " + 
+                                 errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                    //alert("Server has refused to take your Entries! Either your haven't entered unique Email or PhoneNo");
+                }
+            }
+        }) 
+ 
+     $A.enqueueAction(action); 
+  
+    },
+doRedirect:function(component, event, helper){
+             $A.createComponent(
+            "c:ThankYouComponent",
+            {
+                 
+            },
+            function(newCmp){
+                if (component.isValid()) {
+                    var body = component.get("v.body");
+                    body.push(newCmp);
+                    component.set("v.body", body);
+                     //component.set("v.variable1", "false");
+                     //component.set("v.variable2", "false");
+                  }
+            }
+        )    
+ },
+ doRedirect2:function(component, event, helper){
+             $A.createComponent(
+            "c:SorryComponent",
+            {
+                 
+            },
+            function(newCmp){
+                if (component.isValid()) {
+                    var body = component.get("v.body");
+                    body.push(newCmp);
+                    component.set("v.body", body);
+                     //component.set("v.variable1", "false");
+                     //component.set("v.variable2", "false");
+                  }
+            }
+        )    
+ }
+ })
+ 
+ ==================================================================================================================================
