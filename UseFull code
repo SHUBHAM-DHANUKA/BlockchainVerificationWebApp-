@@ -1,0 +1,226 @@
+	
+===========================================================================================================
+
+
+===========================================================================================================
+JavaScript Controller to Apex class updation 
+
+    doInit: function(component, event, helper) {
+    alert("function is working right");
+    
+        var action = component.get("c.Method");
+        action.setParams({ FN : "Mission",  
+                           LN : "Impossible", 
+                           PH : "1234567890",
+                           EM : "Mi@gmail.com",
+                           PD : "Mission", 
+                           CY : "India" });
+ 
+  
+
+        // Create a callback that is executed after 
+        // the server-side action returns
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                // Alert the user with the value returned 
+                // from the server
+                alert("From server: " + response.getReturnValue());
+
+                // You would typically fire a event here to trigger 
+                // client-side notification that the server-side 
+                // action is complete
+            }
+            else if (state === "INCOMPLETE") {
+                // do something
+            }
+            else if (state === "ERROR") {
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log("Error message: " + 
+                                 errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                }
+            }
+        });
+
+       
+        $A.enqueueAction(action);
+    }
+==============================================================================================================   
+
+SELECT Lightning Code ::::
+
+<lightning:select aura:id="fieldId"
+                              required="true"
+                              name="attachmentType"
+                              label="Attachment Type"
+                              value="{!v.documentType}"                             >
+                <option value = "">select</option>          
+            </lightning:select>
+=======================
+
+
+<aura:attribute type='String[]' name='Country' default="India,Iceland,Indonesia,Iran,Iraq,Ireland,Israel,Italy" />
+<aura:attribute type='String' name='userCountry' />  
+    
+    <label for="country" id="labelFormatting">Enter Your Country:</label>
+    <lightning:select aura:id="fieldId"
+                      required="true"
+                      name="Country"
+                      label=""
+                      value="{!v.userCountry}">
+    <option>Select Country </option>
+    <aura:iteration items="{!v.Country}"    var="itCountry">
+        <option     value= "{!itCountry}"   text="{!itCountry}" />
+    </aura:iteration> 
+   
+    </lightning:select>
+	
+
+================================================================================================================
+
+Phone not 10 no digit check code :
+
+    <lightning:input aura:id="tel" type="tel" label="Telephone"
+                     name="tel"  pattern="^[0-9_ ]*$" minlength="10" maxlength="10"
+                     messageWhenPatternMismatch="Phone number is not valid"
+                     onblur='{!c.checkValidity}'
+                     /> 
+====================
+Controller:
+   checkValidity : function(component, event, helper) {
+        var validity = event.getSource().get("v.validity");
+        console.log(validity)
+    }
+=====================
+
+    <lightning:input aura:id="fieldId" type="tel" label=""
+                     placeholder="Unique PhoneNo " required="true" value="{!v.Phone}"
+                     name="tel"  pattern="[789][0-9]{9}" minlength="10" maxlength="10"
+                     messageWhenPatternMismatch="Phone number is not valid"
+                     onblur='{!c.checkValidity}'
+                     /> 
+==============
+Controller:
+    doInit: function(component, event, helper){
+        var Phone = component.get("v.Phone");
+        if(Phone.length==10 && parseInt(Phone) && (Phone[0]=='7' ||Phone[0]=='8' ||Phone[0]=='9')){
+        alert(Phone.length);
+   
+        }
+        else{
+            alert("Not a Number");
+        }
+    }					 
+===============================================================================================================
+Exception handling :
+throw new AuraHandledException('Darn it! Something went wrong: ');
+
+ else if (state === "ERROR") {
+                //alert("Server has refused to take your Entries! Either your haven't entered unique Email or PhoneNo");
+                var a = component.get('c.doRedirect2');
+                $A.enqueueAction(a);
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log("Error message: " + 
+                                 errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                    //alert("Server has refused to take your Entries! Either your haven't entered unique Email or PhoneNo");
+                }
+
+
+================================================================================================================	
+Getting value from html to controller:
+var x = component.get("va.variable"); 
+============================================	 
+Assigning Attribute value at html level 
+==> 
+<aura:attribute type='String' name='FirstName' default='' />
+<lightning:input type="text" name="FirstName" placeholder="First Name" value="{!v.FirstName}"  />
+
+
+============================================
+using Attribute vaiable value at componet controll level
+==>                 var body = component.get("v.body");
+                    body.push(newCmp);
+                    component.set("v.body", body);
+                    component.set("v.variable1", "false");
+                    component.set("v.variable2", "false");
+============================================
+Assing value to apex class vaiable 
+==> upper page 
+
+============================================
+calling a componet inside another component 
+==>
+var a = component.get('c.doInit2');
+$A.enqueueAction(a);  
+============================================
+
+passing value from one componet to another component 
+==> 
+
+passing value from one component controller to another component
+==>
+
+=====================================================================
+redirecting componet =>
+
+    doInit:function(component, event, helper){
+        alert("Function is working");
+        var newEvent = $A.get("e.force:navigateToComponent");
+        newEvent.setParams({
+            componentDef: "c:SignupComponent",
+            componentAttributes: {
+                //Set you attributes here if required.
+            }
+        });
+        newEvent.fire();
+    }
+===============================================================================
+closing/ hiding componet 
+
+<aura:attribute name="variable1" type="boolean" default="true"/>
+
+    <aura:if isTrue="{!v.variable1}">
+    {!v.body2}
+    <aura:set attribute="else">
+    {!v.body}  
+    </aura:set>
+    </aura:if> 
+	
+	
+
+
+==> doRedirect2:function(component, event, helper){
+             $A.createComponent(
+            "c:SorryComponent",
+            {
+                 
+            },
+            function(newCmp){
+                if (component.isValid()) {
+                    var body = component.get("v.body");
+                    body.push(newCmp);
+                    component.set("v.body", body);
+                     //component.set("v.variable1", "false");
+                     //component.set("v.variable2", "false");
+                  }
+            }
+        )    
+ }
+=============================================================================
+
+
+
+
+
+
+	 
