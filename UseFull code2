@@ -1,0 +1,405 @@
+    doInit:function(component, event, helper){
+        alert("Function is working");
+        var newEvent = $A.get("e.force:navigateToComponent");
+        newEvent.setParams({
+            componentDef: "c:SignupComponent",
+            componentAttributes: {
+                //Set you attributes here if required.
+            }
+        });
+        newEvent.fire();
+    }
+	===============================================================================
+	<aura:if isTrue="{!v.variable1}">
+    {!v.body2}
+    <aura:set attribute="else">
+    {!v.body}  
+    </aura:set>
+    </aura:if> 
+	
+	
+===========================================================================================================
+JavaScript Controller to Apex class updation 
+
+    doInit: function(component, event, helper) {
+    alert("function is working right");
+    
+        var action = component.get("c.Method");
+        action.setParams({ FN : "Mission",  
+                           LN : "Impossible", 
+                           PH : "1234567890",
+                           EM : "Mi@gmail.com",
+                           PD : "Mission", 
+                           CY : "India" });
+ 
+  
+
+        // Create a callback that is executed after 
+        // the server-side action returns
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                // Alert the user with the value returned 
+                // from the server
+                alert("From server: " + response.getReturnValue());
+
+                // You would typically fire a event here to trigger 
+                // client-side notification that the server-side 
+                // action is complete
+            }
+            else if (state === "INCOMPLETE") {
+                // do something
+            }
+            else if (state === "ERROR") {
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log("Error message: " + 
+                                 errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                }
+            }
+        });
+
+       
+        $A.enqueueAction(action);
+    }
+==============================================================================================================   
+
+SELECT Lightning Code ::::
+
+<lightning:select aura:id="fieldId"
+                              required="true"
+                              name="attachmentType"
+                              label="Attachment Type"
+                              value="{!v.documentType}"                             >
+                <option value = "">select</option>          
+            </lightning:select>
+=======================
+
+
+<aura:attribute type='String[]' name='Country' default="India,Iceland,Indonesia,Iran,Iraq,Ireland,Israel,Italy" />
+<aura:attribute type='String' name='userCountry' />  
+    
+    <label for="country" id="labelFormatting">Enter Your Country:</label>
+    <lightning:select aura:id="fieldId"
+                      required="true"
+                      name="Country"
+                      label=""
+                      value="{!v.userCountry}">
+    <option>Select Country </option>
+    <aura:iteration items="{!v.Country}"    var="itCountry">
+        <option     value= "{!itCountry}"   text="{!itCountry}" />
+    </aura:iteration> 
+   
+    </lightning:select>
+	
+
+================================================================================================================
+
+Phone not 10 no digit check code :
+
+    <lightning:input aura:id="tel" type="tel" label="Telephone"
+                     name="tel"  pattern="^[0-9_ ]*$" minlength="10" maxlength="10"
+                     messageWhenPatternMismatch="Phone number is not valid"
+                     onblur='{!c.checkValidity}'
+                     /> 
+==============
+Controller:
+   checkValidity : function(component, event, helper) {
+        var validity = event.getSource().get("v.validity");
+        console.log(validity)
+    }
+==================================================================================
+
+    <lightning:input aura:id="fieldId" type="tel" label=""
+                     placeholder="Unique PhoneNo " required="true" value="{!v.Phone}"
+                     name="tel"  pattern="[789][0-9]{9}" minlength="10" maxlength="10"
+                     messageWhenPatternMismatch="Phone number is not valid"
+                     onblur='{!c.checkValidity}'
+                     /> 
+==============
+Controller:
+    doInit: function(component, event, helper){
+        var Phone = component.get("v.Phone");
+        if(Phone.length==10 && parseInt(Phone) && (Phone[0]=='7' ||Phone[0]=='8' ||Phone[0]=='9')){
+        alert(Phone.length);
+   
+        }
+        else{
+            alert("Not a Number");
+        }
+    }					 
+===============================================================================================================
+Exception handling :
+
+
+
+================================================================================================================	
+Getting value from html to controller:
+var x = component.get("va.variable"); 
+	 
+Assigning Attribute value at html level 
+==>
+
+using Attribute vaiable value at componet controll level
+==>
+
+Assing value to apex class vaiable 
+==>
+
+
+calling a componet inside another component 
+==>
+var a = component.get('c.doInit2');
+$A.enqueueAction(a);  
+
+
+passing value from one componet to another component 
+==>
+==============================================================================
+passing value from one component controller to another component attribute 
+==>
+ doRedirect:function(component, event, helper){
+             $A.createComponent(
+            "c:BlockchainComponent",
+            {
+                ActiveEmail : component.get('v.Email')    
+            },
+            function(newCmp){
+                if (component.isValid()) {
+                    var body = component.get("v.body");
+                    body.push(newCmp);
+                    component.set("v.body", body);
+                     //component.set("v.variable1", "false");
+                     //component.set("v.variable2", "false");
+                  }
+            }
+        )    
+ }
+
+redirecting componet or closing/ hiding componet 
+==>
+=====================================================================
+call a function without using anything in Html:::
+
+<aura:handler name="init" value="{! this }" action="{! c.myAction }" />
+=====================================================================
+redrecting to page in lightning:::: 
+
+ window.setTimeout(
+         $A.getCallback(function() { 
+          console.log("after 3 second");
+           window.location.href = '';
+         }), 3000);	
+		 
+		 
+======================================================================
+Important  Aspect 
+======================================================================
+1) How to get value from HTMl to componet controller 
+var x = componet.get("v.variable1);
+
+======================================================================
+2) How to set Any value from componet contoller to HTMl 
+component.set("v.myBool" , true);
+
+
+2.1) How to set Apex value from compnent controller to HTMl
+     
+	 var action = component.get("c.MethodForFetchingUserInformation");
+        action.setParams({ EM : x});
+        action.setCallback(this, function(response) {
+        var state = response.getState();
+            if (state === "SUCCESS") {
+                 //console.log(response.getReturnValue());
+                 
+            }
+            else if (state === "INCOMPLETE") {
+                // do something
+            }
+            else if (state === "ERROR") {
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log("Error message: " + 
+                                 errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                }
+            }
+        });
+        $A.enqueueAction(action);
+    
+======================================================================
+3) How to set value from component contoller to Apex class 
+
+	myAction : function(component, event, helper) {
+		console.log("method is working");
+       
+        var x = component.get('v.ReceiverPhone');
+        //console.log(x);
+        var action = component.get("c.MethodForFetchingReceiverInformation");
+        action.setParams({ PH : x});
+        action.setCallback(this, function(response) {
+        var state = response.getState();
+            if (state === "SUCCESS") {
+                 //console.log(response.getReturnValue());
+
+                 component.set("v.UserInformation", response.getReturnValue());
+                 //var SP = response.getReturnValue()[0].Phone__c;
+                 //component.set("v.SenderPhone", SP);
+                 
+            }
+            else if (state === "INCOMPLETE") {
+                // do something
+            }
+            else if (state === "ERROR") {
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log("Error message: " + 
+                                 errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                }
+            }
+        });
+        $A.enqueueAction(action);
+    }
+======================================================================
+4) How to get value from Apex class to component controller 
+UserInformation : function(component,event,helper) {
+        var x = component.get('v.ActiveEmail');
+        //console.log(x);
+        var action = component.get("c.MethodForFetchingUserInformation");
+        action.setParams({ EM : x});
+        action.setCallback(this, function(response) {
+        var state = response.getState();
+            if (state === "SUCCESS") {
+                 //console.log(response.getReturnValue());
+
+                 component.set("v.UserInformation", response.getReturnValue());
+                 var SP = response.getReturnValue()[0].Phone__c;
+                 component.set("v.SenderPhone", SP);
+                 var SA = response.getReturnValue()[0].Price__c;
+                 component.set("v.SenderAmount", SA);
+                 
+            }
+            else if (state === "INCOMPLETE") {
+                // do something
+            }
+            else if (state === "ERROR") {
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log("Error message: " + 
+                                 errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                }
+            }
+        });
+        $A.enqueueAction(action);
+    }
+
+4.1) How to get a single parameter value from apex class to compnent controller 
+                 
+				 var SP = response.getReturnValue()[0].Phone__c;
+                 component.set("v.SenderPhone", SP);
+======================================================================
+5) How to call one component inside another component @ component level and app level 
+
+<c: componentname />
+======================================================================
+6) How to pass value from one component to another component @ component level and App level  
+<c: componentname message=" " />
+
+======================================================================
+7) How to call one component inside another component @ Controller level
+   // seperate notes also available 
+   doSend: function(component,event,helper) {
+         $A.createComponent(
+            "c:SendAmountComponent",
+            {
+                SenderPhone:component.get('v.SenderPhone'),
+                SenderAmount:component.get('v.SenderAmount')
+            },
+            function(newCmp){
+                if (component.isValid()) {
+                    var body = component.get("v.body");
+                    body.push(newCmp);
+                    component.set("v.body", body);
+                }
+            }
+        );	       
+	}
+
+======================================================================
+
+8) How to pass value from one component to another component  @ controller level
+   
+   doCheckDetails:function(component, event, helper){
+                 $A.createComponent(
+            "c:ReceiverDetails",
+            {
+                ReceiverPhone:component.get('v.RecieverPhone')  
+            },
+            function(newCmp){
+                if (component.isValid()) {
+                    var body = component.get("v.body");
+                    body.push(newCmp);
+                    component.set("v.body", body);
+                }
+            }
+        );	
+    }
+
+======================================================================
+9) How to redirecting from one componet to other component 
+   // Not proper info 
+   but you can redirect & refresh by using regular javascript fucntion  
+
+====================================================================
+10)How to redirecting from one component to another compnent after interval; 
+   
+
+ window.setTimeout(
+         $A.getCallback(function() { 
+          console.log("after 3 second");
+           window.location.href = '';
+         }), 3000);	
+		 
+		 
+
+====================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	 
